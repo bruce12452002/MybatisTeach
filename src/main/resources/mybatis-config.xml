@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- https://mybatis.org/mybatis-3/getting-started.html#building-sqlsessionfactory-from-xml -->
+
+<configuration>
+    <properties resource="dataSource.properties"/>
+    <typeAliases>
+        <!-- alias 不區分大小寫，不寫 alias 屬性時為類別名稱，此時 mapper 的 resultType 就可以用這個別名了 -->
+        <!-- 內鍵別名 https://mybatis.org/mybatis-3/configuration.html#typeAliases -->
+<!--        <typeAlias type="home.bruce.bean.UserAccount" alias="userAccount"/>-->
+
+        <!-- 將包下的類別名稱都變成別名，也是不區分大小寫 -->
+        <package name="home.bruce.bean" />
+    </typeAliases>
+
+
+    <environments default="development"> <!-- environment 可以很多個，default 指定其中一個，就可改變不同的 dataSource -->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/my_db"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+<!--        <mapper resource="mappers/UserAccountMapper.xml"/>-->
+
+        <!-- package 是將所有的 mapper.xml 放在統一的包裡，這樣就不用寫很多的 mapper 標籤了 -->
+        <!-- 使用 package 時，有三點要注意： -->
+        <!-- 1.寫在 package 標籤是用「.」，但創建資料夾時以作業系統為主，windows 用「\」；linux 用「/」 -->
+        <!-- 2.src/main/java 後的包名 必需和 src/main/resources 後的包名一致 -->
+        <!-- 3.主檔名也要一致，如 UserAccountMapper 都必需一樣 -->
+        <package name="home.bruce.mapper"/>
+    </mappers>
+</configuration>

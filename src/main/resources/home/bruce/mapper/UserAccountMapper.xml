@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- https://mybatis.org/mybatis-3/getting-started.html#exploring-mapped-sql-statements -->
+<!-- mapper 的 namespace 要寫 mapper 的包路徑，而 mapper 的子標籤 的 id 就是方法名稱，所以 mybatis 並不支援 overloading -->
+<mapper namespace="home.bruce.mapper.UserAccountMapper">
+    <!--    <select id="selectById" resultType="home.bruce.bean.UserAccount">-->
+    <select id="selectById" resultType="userAccount">
+        select * from user_account
+        <where> <!-- 可以將多餘的 and 去掉，通常是裡面有 if 標籤 -->
+            <!-- #{} 為 preparedStatement；${}為字串拼接，資料表、欄位、sql 關鍵字無法用 #{}，只能用 ${} -->
+            id = #{id} <!-- 如果只有一個參數，#{}裡面寫什麼都行 -->
+        </where>
+    </select>
+
+    <select id="selectAll" resultType="home.bruce.bean.UserAccount">
+        select * from user_account
+    </select>
+
+    <select id="selectByIdAndName" resultType="UserAccount">
+        select * from user_account
+        <where>
+            <!--            id = #{arg0}-->
+            <!--            and name = #{arg1}-->
+
+            <!--            id = #{param1}-->
+            <!--            and name = #{param2}-->
+
+            id = #{id}
+            and name = #{name}
+        </where>
+    </select>
+
+    <select id="selectByMap" resultType="UserAccount">
+        select * from user_account
+        <where>
+            <!--            id = #{xxx}-->
+            <!--            and name = #{ooo}-->
+
+            id = #{m.xxx}
+            and name = #{m.ooo}
+        </where>
+    </select>
+
+    <select id="selectByBean" resultType="UserAccount">
+        select * from user_account
+        <where>
+            id = #{id}
+            and name = #{name}
+        </where>
+    </select>
+
+    <select id="returnMap" resultType="map">
+        select * from user_account where id = 1
+    </select>
+
+    <select id="selectLike" resultType="UserAccount">
+        select * from user_account where
+
+        <!-- 使用 #{} 會報錯，因為 ? 變成字串了，不是佔位的意思 -->
+<!--        name like '%${name}%'-->
+
+<!--        name like concat('%', #{name}, '%')-->
+
+        name like "%"#{name}"%"
+    </select>
+
+<!--    <select id="selectLike" resultType="UserAccount">-->
+<!--        <bind name="uname" value="'%' + name + '%'"/>-->
+<!--        select * from user_account where-->
+<!--        name like #{uname} &lt;!&ndash; uname 是抓 bind name，也可以都叫 name，只是教學上區別開來比較清楚 &ndash;&gt;-->
+<!--    </select>-->
+
+    <!-- 資料庫必需先設定好自增主鍵 -->
+    <!-- useGeneratedKeys 表示要不要將自動產生的 PK 放進來 -->
+    <!-- keyProperty 表示放到傳進來的 java bean 的哪個欄位 -->
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
+        insert into user_account (name, money) values (#{name}, #{money})
+
+<!--        insert into user_account values (null, #{name}, #{money})-->
+    </insert>
+
+    <update id="u"></update>
+    <delete id="d"></delete>
+</mapper>

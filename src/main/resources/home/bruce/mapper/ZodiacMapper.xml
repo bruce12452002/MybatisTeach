@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="home.bruce.mapper.ZodiacMapper">
+
+    <select id="selectAll" resultType="home.bruce.bean.Zodiac">
+        select
+        *
+        <!--            id,-->
+        <!--            name,-->
+        <!--            en_name as enName,-->
+        <!--            weapon,-->
+        <!--            attack_point as attackPoint-->
+        from zodiac
+    </select>
+
+    <!-- property 為 java 的名稱； column 為資料庫的名稱 -->
+    <!-- 如果兩個名稱都一樣，可以不寫 -->
+    <resultMap id="rm" type="Zodiac">
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="name" column="name"/>-->
+        <result property="enName" column="en_name"/>
+<!--        <result property="weapon" column="weapon"/>-->
+        <result property="attackPoint" column="attack_point"/>
+    </resultMap>
+
+    <select id="selectAllWithResultMap" resultMap="rm">
+        select * from zodiac
+    </select>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <properties resource="dataSource.properties"/>
+
+    <!-- https://mybatis.org/mybatis-3/configuration.html#settings-->
+<!--    <settings>-->
+        <!-- select 欄位時，有些欄位會用底線分隔單字，可用 sql 語法的 as 或者這裡的設定，使得值可以映射到 bean-->
+<!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
+<!--    </settings>-->
+    
+    <typeAliases>
+        <package name="home.bruce.bean" />
+    </typeAliases>
+
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <package name="home.bruce.mapper"/>
+    </mappers>
+</configuration>
